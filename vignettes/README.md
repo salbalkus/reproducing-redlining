@@ -1,0 +1,2 @@
+# Vignettes
+This directory contains articles (vignettes) describing how to use the code in this project. It also documents the development decisions and explains some of the potential theoretical issues yet to be resolved.

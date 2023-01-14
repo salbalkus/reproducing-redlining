@@ -1,0 +1,40 @@
+---
+title: "reproducing-redlining-build"
+format: html
+editor: visual
+jupyter: python3
+---
+
+# Reproducing "The Lasting Legacy of Redlining"
+
+This notebook attempts to reproduce the figures in the FiveThirtyEight article "[The Lasting Legacy of Redlining](https://projects.fivethirtyeight.com/redlining/)" originally authored by Ryan Best and Elena Mejía.
+
+```{r}
+set.seed(10)
+library(tidyverse)
+
+```
+
+## Step 1: Download Data
+
+We obtain the project data from the FiveThirtyEight GitHub.
+
+```{r}
+
+source1 <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/redlining/metro-grades.csv"
+source2 <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/redlining/zone-block-matches.csv"
+
+# Where in the repository to save the data
+dest1 <- "../data/metro-grades.csv"
+dest2 <- "../data/zone-block-matches.csv"
+
+download.file(url = source1, destfile = dest1)
+download.file(url = source2, destfile = dest2)
+
+```
+
+## Step 2: Obtain Census Data
+
+```{r}
+
+```
