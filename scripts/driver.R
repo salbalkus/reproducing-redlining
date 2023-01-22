@@ -1,6 +1,6 @@
 if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
 pacman::p_load("here", "rmarkdown",
-               "tidyverse",
+               "readr", "dplyr", "ggplot2", "tidyr", "purrr",
                "sp", "sf", "smoothr", "scatterpie",
                "tidycensus", "ggmap", "grid", "gridExtra", "ggplotify", "plotly",
                )
