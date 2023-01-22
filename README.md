@@ -10,6 +10,15 @@ Please see below for more details on how the figures were reproduced and how to 
 
 There are two ways to reproduce the results here. They are as follows:
 
+## Recommended: Run `scripts/driver.R`
+
+The `scripts/driver.R` file should automatically knit the visualizations to html. To run this script, simply:
+
+1. Clone this Git repository to your local machine.
+2. If necessary, install any packages listed under "Dependencies" below that you do not already have installed or are not automatically installed by `pacman`. NOTE: if not already installed, it may be necessary to download `sf` and `tidycensus` from the RStudio command line, as some of *their* dependencies may need to be built from source. Agree to any prompts provided by RStudio.
+3. Run `scripts/driver.R` either in RStudio or from the command line by navigating to the repository using `cd` and running `Rscript scripts/driver.R`
+
+
 ## Open and run individual code cells from the `scripts/driver.Rmd`
 
 The `scripts/driver.Rmd` file runs each step of the simulation and saves the output to the **data** folder. To reproduce individual steps of the analysis, do the following:
@@ -18,16 +27,7 @@ The `scripts/driver.Rmd` file runs each step of the simulation and saves the out
 2. If necessary, install any packages listed under "Dependencies" below that you do not already have installed.
 3. Open `scripts/driver.Rmd` in RStudio and run the desired cells corresponding to the steps of the analysis that you would like to reproduce.
 
-Knitting `scripts/driver.Rmd` to an .html file will run the entire file and reproduce the results as a .html file.
-
-## Run `scripts/driver.R`
-
-The `scripts/driver.R` file should automatically knit the visualizations to html. To run this script, simply:
-
-1. Clone this Git repository to your local machine.
-2. If necessary, install any packages listed under "Dependencies" below that you do not already have installed or are not automatically installed by `pacman`.
-3. Run `scripts/driver.R` either in RStudio or from the command line by navigating to the repository using `cd` and running `Rscript scripts/driver.R`
-
+Also, knitting `scripts/driver.Rmd` to an .html file manually in RStudio will run the entire file and reproduce the results (albeit in the same folder in which the RMarkdown file is knitted.
 
 # Dependencies:
 ```
