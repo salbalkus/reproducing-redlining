@@ -8,7 +8,7 @@ Please see below for more details on how the figures were reproduced and how to 
 
 # How to Run Code
 
-There are two ways to reproduce the results here. They are as follows:
+There are two ways to reproduce the results here, which are listed below. One warning: Regenerating the data from scratch using `scripts/driver.R` or `scripts/driver.Rmd` may potentially take up to about 30 minutes to complete.
 
 ## Recommended: Run `scripts/driver.R`
 
@@ -52,7 +52,7 @@ tidyr=1.2.1
 
 # Contents
 
-- **data**: Stores data downloads and intermediate steps of the analysis. Note that due to file size sharing restrictions, I only include the first step of downloads. WARNING: Regenerating the data from scratch using *scripts/driver.R* may potentially take up to about 30 minutes to complete.
+- **data**: Stores data downloads and intermediate steps of the analysis. Note that due to file size sharing restrictions, I only include the first step of downloads. 
 - **R**: Code to run each intermediate step of the analysis. These are implemented in the driver script.
 - **scripts**: Stores the *driver.Rmd* RMarkdown script that reproduces the visualizations from the FiveThirtyEight article, as well as *driver.R* which automatically knits *driver.Rmd* when run from the command line.
 - **results**: Contains the reproduced visualizations from the article in the form of a .html file.
