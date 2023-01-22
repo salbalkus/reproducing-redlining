@@ -52,5 +52,3 @@ us_scatterpie_grid <- function(metro_grades, states){
   grid.arrange(A, D, nrow=1)
   
 }
-
-us_scatterpie_grid
