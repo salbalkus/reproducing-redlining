@@ -1,2 +1,2 @@
-# Results
-This directory contains the code used to generate outputs, whether those be figures, data created via simulation, or other results.
+# Scripts
+This directory contains driver scripts. These scripts run each intermediate step in sequence in order to produce the final output.

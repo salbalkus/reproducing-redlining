@@ -1,2 +1,2 @@
 # Results
-This directory reports the findings (figures, tables, etc.) of the project.
+This directory stores the .html files containing the reproduced visualizations from the FiveThirtyEight article.

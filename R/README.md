@@ -1,2 +1,2 @@
 # Source Code
-This directory contains the R package implementing the project requirements, allowing experiments to be reproduced under different settings.
+This directory contains the R scripts that output intermediate data to produce the visualization.
