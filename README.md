@@ -8,7 +8,7 @@ Please see below for more details on how the figures were reproduced and how to 
 
 # How to Run Code
 
-There are twoways to reproduce the results here. They are as follows:
+There are two ways to reproduce the results here. They are as follows:
 
 ## Open and run individual code cells from the `scripts/driver.Rmd`
 
