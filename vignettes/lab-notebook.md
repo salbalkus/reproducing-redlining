@@ -1,1 +1,0 @@
-# Reproducing "The Lasting Legacy of Redlining"
