@@ -49,13 +49,10 @@ construct_map <- function(metro_grades, bound, blocks_buffer){
 
 construct_map(metro_grades, bound, blocks_buffer)
 
-# TODO: FIX BUG WHERE CITY DOES NOT APPEAR
 construct_PA <- function(states, metro_grades){
   PA <- states %>% filter(NAME == "Pennsylvania")
   
-  (metro_grades %>% filter(metro_area == "Pittsburgh, PA"))$centroid[1]
-  
-  city_loc <- data.frame(geometry=(metro_grades %>% filter(metro_area == "Pittsburgh, PA"))$centroid[1])
+  city_loc <- data.frame(geometry=st_as_sf(eval(str2expression((metro_grades %>% filter(metro_area == "Pittsburgh, PA"))$centroid))))
   
   ggplot() + 
     geom_sf(data = PA, mapping = aes(geometry=geometry)) +
@@ -157,11 +154,11 @@ construct_holc_map <- function(){
   grades <- c(A = "Best", B = "Desirable", C = "Declining", D = "Hazardous")
   
   for(i in c("A","B","C","D")){
-    points[[i]] <- c(st_combine(read_rds(sprintf("../data/sampled_white_%s.rds", i))),
-                     st_combine(read_rds(sprintf("../data/sampled_black_%s.rds", i))),
-                     st_combine(read_rds(sprintf("../data/sampled_hispanic_%s.rds", i))),
-                     st_combine(read_rds(sprintf("../data/sampled_asian_%s.rds", i))),
-                     st_combine(read_rds(sprintf("../data/sampled_other_%s.rds", i)))
+    points[[i]] <- c(st_combine(read_rds(here("data", sprintf("sampled_white_%s.rds", i)))),
+                     st_combine(read_rds(here("data", sprintf("sampled_black_%s.rds", i)))),
+                     st_combine(read_rds(here("data", sprintf("sampled_hispanic_%s.rds", i)))),
+                     st_combine(read_rds(here("data", sprintf("sampled_asian_%s.rds", i)))),
+                     st_combine(read_rds(here("data", sprintf("sampled_other_%s.rds", i))))
     )
     
     holc_plots[[i]] <- ggmap(m) +

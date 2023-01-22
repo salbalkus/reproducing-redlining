@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+curl -L  https://github.com/jgm/pandoc/releases/download/2.8.0.1/pandoc-2.8.0.1-linux-amd64.tar.gz | tar xz
+mv ./pandoc-2.8.0.1/bin/pandoc /usr/bin
+mv ./pandoc-2.8.0.1/bin/pandoc-citeproc /usr/bin
+rm -rf ./pandoc-2.8.0.1/
