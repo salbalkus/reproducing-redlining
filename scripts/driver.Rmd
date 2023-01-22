@@ -1,0 +1,203 @@
+---
+title: "Reproducing FiveThirtyEight's 'The Lasting Legacy of Redlining'"
+author: "Sal Balkus"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    code_folding: hide
+params:
+  regenerate_data: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+
+here::i_am("scripts/driver.rmd")
+library(here)
+library(readr)
+```
+
+
+## 1) Download Data
+
+```{r, message=F, warning=F}
+
+path_metro_grades <- here("data", "metro-grades.csv")
+path_zone_blocks <- here("data", "zone-block-matches.csv")
+path_blocks <- here("data", "blocks.rds")
+path_census_states <- here("data", "states.rds")
+
+if(params$regenerate_data || 
+   !file.exists(path_metro_grades) || 
+   !file.exists(path_metro_grades)){
+  source(here("R", "download_538_data.R"))
+}
+
+metro_grades <- read_csv(path_metro_grades)
+zone_blocks <- read_csv(path_zone_blocks)
+
+
+if(params$regenerate_data || !file.exists(path_blocks)){
+  source(here("R", "download_census_blocks.R"))
+}
+
+if(params$regenerate_data || !file.exists(path_census_states)){
+  source(here("R", "download_census_states.R"))
+}
+
+```
+
+
+## 2) Reproduce Plots 1 and 2
+
+### 2.a) Cleveland Bar Plot
+
+```{r, message=F, warning=F}
+source(here("R", "visualization_cleveland.R"))
+cleveland_bar(metro_grades)
+
+```
+
+### 2.b) Nationwide Pie Charts
+
+```{r, message=F, warning=F}
+states <- readRDS(path_census_states)
+
+source(here("R", "visualization_us.R"))
+us_scatterpie_grid(metro_grades, states)
+
+```
+
+## 3) Reproduce Plot 3: Pittsburgh HOLC Map
+
+### 3.a) Calculate Buffer Zone to Map
+
+```{r, message=F, warning=F}
+
+# Calculate Buffer Zone
+path_blocks_buffer <- here("data", "blocks_buffer.rds")
+path_bound <- here("data", "bound.rds")
+
+if(params$regenerate_data || 
+   !file.exists(path_blocks_buffer) ||
+   !file.exists(path_bound)){
+  source(here("R", "create_buffer_zone.R"))
+}
+```
+
+### 3.b) Sample Pittsburgh Surrounding Area
+
+```{r, message=F, warning=F}
+## Perform Sampling of Pittsburgh
+
+if(params$regenerate_data || 
+   !file.exists(here("data","sampled_hispanic.rds")) ||
+   !file.exists(here("data","sampled_other.rds")) ||
+   !file.exists(here("data","sampled_white.rds")) ||
+   !file.exists(here("data","sampled_black.rds")) ||
+   !file.exists(here("data","sampled_asian.rds"))
+   ){
+  source(here("R", "sample_population.R"))
+}
+```
+
+### 3.c) Sample Pittsburgh HOLC blocks
+
+```{r, message=F, warning=F}
+## Perform sampling of individual HOLC blocks
+
+# To reduce run time, create a special version with downsampled population
+# This only plots 1/10th of the population
+
+source(here("R","sample_holc.R"))
+
+blocks_buffer <- readRDS(path_blocks_buffer)
+holc_samp <- blocks_buffer %>% 
+  mutate(
+    hispanic = round(hispanic/10),
+    white = round(white/10),
+    black = round(black/10),
+    asian = round(asian/10),
+    other_race = round(other_race/10)
+  ) %>% inner_join(zone_blocks, by=c("GEOID"="block_geoid20"))
+
+
+for(grade in c("A","B","C","D")){
+  if(params$regenerate_data ||
+    !file.exists(here("data",sprintf("sampled_white_%s.rds", grade))) ||
+     !file.exists(here("data",sprintf("sampled_black_%s.rds", grade))) ||
+     !file.exists(here("data",sprintf("sampled_asian_%s.rds", grade))) ||
+     !file.exists(here("data",sprintf("sampled_hispanic_%s.rds", grade))) ||
+     !file.exists(here("data",sprintf("sampled_other_%s.rds", grade)))){
+    map_grade(holc_samp, grade)
+  }
+}
+```
+
+### 3.d) Initialize Visualization
+
+```{r, message=F, warning=F}
+source(here("R","visualization_pittsburgh.R"))
+
+bound <- readRDS(path_bound)
+
+holc_plots <- construct_holc_map()
+
+PA_plot <- construct_PA(states, metro_grades)
+
+surrounding_bar <- construct_surrounding_bar(blocks_buffer)
+
+```
+
+
+# Pittsburgh, PA: {.tabset .tabset-pills}
+
+## "BEST" 
+
+```{r, echo=F, out.width="49%", warning = F, message=F}
+holc_plots[["A"]]
+construct_surrounding_plot(metro_grades, bound, blocks_buffer, PA_plot)
+
+```
+
+
+```{r, echo=F, out.width="100%", message=F, warning=F}
+# Note that we need a second code block since plotly objects can't use out.width
+subplot(bar_grade(metro_grades, "A"), surrounding_bar, nrows=1)
+
+```
+
+## "DESIRABLE" 
+
+```{r, echo=FALSE, out.width="49%", message=F, warning=F}
+holc_plots[["B"]]
+construct_surrounding_plot(metro_grades, bound, blocks_buffer, PA_plot)
+```
+
+```{r, echo=F, out.width="100%", message=F, warning=F}
+subplot(bar_grade(metro_grades, "B"), surrounding_bar, nrows=1)
+```
+
+## "DECLINING" 
+
+```{r, echo=FALSE, out.width="49%", message=F, warning=F}
+holc_plots[["C"]]
+construct_surrounding_plot(metro_grades, bound, blocks_buffer, PA_plot)
+```
+
+```{r, echo=F, out.width="100%", message=F, warning=F}
+subplot(bar_grade(metro_grades, "C"), surrounding_bar, nrows=1)
+```
+
+## "HAZARDOUS" 
+
+```{r, echo=FALSE, out.width="49%", message=F, warning=F}
+holc_plots[["D"]]
+construct_surrounding_plot(metro_grades, bound, blocks_buffer, PA_plot)
+```
+
+```{r, echo=F, out.width="100%", message=F, warning=F}
+subplot(bar_grade(metro_grades, "D"), surrounding_bar, nrows=1)
+```
+
+

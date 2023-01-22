@@ -106,6 +106,7 @@ states <- get_decennial(geography = "state",
 metros <- get_decennial(geography = "cbsa", 
                          variables = c("P2_001N"), 
                          year = 2020, geometry = TRUE)
+
 metros$NAME <- substr(metros$NAME, 1, nchar(metros$NAME)-11) # The 538 data has "Metro Area" and "Micro Area" removed from NAME
 metro_grades <- left_join(metro_grades, metros, by=c("metro_area"="NAME")) # associate each metro area with a geography
 metro_grades$centroid <- st_centroid(metro_grades$geometry)
