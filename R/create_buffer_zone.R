@@ -1,6 +1,7 @@
 library(readr)
 library(dplyr)
 library(smoothr)
+library(sf)
 
 here::i_am("R/download_census_blocks.R")
 library(here)
