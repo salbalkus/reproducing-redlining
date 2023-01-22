@@ -20,7 +20,7 @@ library(readr)
 
 ## 1) Download Data
 
-```{r, message=F, warning=F}
+```{r download, message=F, warning=F}
 
 path_metro_grades <- here("data", "metro-grades.csv")
 path_zone_blocks <- here("data", "zone-block-matches.csv")
@@ -52,7 +52,7 @@ if(params$regenerate_data || !file.exists(path_census_states)){
 
 ### 2.a) Cleveland Bar Plot
 
-```{r, message=F, warning=F}
+```{r cleveland-bar, message=F, warning=F}
 source(here("R", "visualization_cleveland.R"))
 cleveland_bar(metro_grades)
 
@@ -60,7 +60,7 @@ cleveland_bar(metro_grades)
 
 ### 2.b) Nationwide Pie Charts
 
-```{r, message=F, warning=F}
+```{r nationwide-pie, message=F, warning=F}
 states <- readRDS(path_census_states)
 
 source(here("R", "visualization_us.R"))
@@ -72,7 +72,7 @@ us_scatterpie_grid(metro_grades, states)
 
 ### 3.a) Calculate Buffer Zone to Map
 
-```{r, message=F, warning=F}
+```{r buffer-zone, message=F, warning=F}
 
 # Calculate Buffer Zone
 path_blocks_buffer <- here("data", "blocks_buffer.rds")
@@ -87,7 +87,7 @@ if(params$regenerate_data ||
 
 ### 3.b) Sample Pittsburgh Surrounding Area
 
-```{r, message=F, warning=F}
+```{r pittsburgh-sample, message=F, warning=F}
 ## Perform Sampling of Pittsburgh
 
 if(params$regenerate_data || 
@@ -103,7 +103,7 @@ if(params$regenerate_data ||
 
 ### 3.c) Sample Pittsburgh HOLC blocks
 
-```{r, message=F, warning=F}
+```{r pittsburgh-holc-sample, message=F, warning=F}
 ## Perform sampling of individual HOLC blocks
 
 # To reduce run time, create a special version with downsampled population
@@ -136,7 +136,7 @@ for(grade in c("A","B","C","D")){
 
 ### 3.d) Initialize Visualization
 
-```{r, message=F, warning=F}
+```{r pittsburgh-map, message=F, warning=F}
 source(here("R","visualization_pittsburgh.R"))
 
 bound <- readRDS(path_bound)
