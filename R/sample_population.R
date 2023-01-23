@@ -1,3 +1,5 @@
+# This file randomly samples point geometries to represent population from Census block data, in order to construct the Pittsburgh map
+
 library(dplyr)
 library(ggplot2)
 library(sf)
@@ -7,6 +9,7 @@ library(here)
 
 blocks_buffer <- readRDS(here("data", "blocks_buffer.rds"))
 
+# Take only 10% of the population for computational purposes
 samp <- blocks_buffer %>% 
   mutate(
     hispanic = round(hispanic/10),
