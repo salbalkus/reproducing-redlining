@@ -1,3 +1,5 @@
+# This file provides a function that randomly samples population point geometries for the Pittsburgh map for each race using the Census bureau data
+
 library(readr)
 library(dplyr)
 
