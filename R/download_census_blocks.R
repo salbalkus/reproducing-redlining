@@ -1,3 +1,5 @@
+# This file downloads Census block geometries and population data needed to produce the maps
+
 library(tidyr)
 library(tidycensus)
 
