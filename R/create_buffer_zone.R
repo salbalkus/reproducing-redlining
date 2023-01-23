@@ -1,3 +1,5 @@
+# This file calculates the circular buffer zone for the Pittsburgh map, and determines which Census blocks are contained within it
+
 library(readr)
 library(dplyr)
 library(smoothr)
