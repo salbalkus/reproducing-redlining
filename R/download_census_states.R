@@ -1,3 +1,5 @@
+# This file downloads and saves state-level geometries from the Census Bureau
+
 here::i_am("R/download_census_states.R")
 library(here)
 library(tidycensus)
