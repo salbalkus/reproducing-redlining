@@ -1,3 +1,5 @@
+# This file downloads and saves the FiveThirtyEight article data from their GitHub repository and merges with Census geometries
+
 library(here)
 library(readr)
 library(tidycensus)
