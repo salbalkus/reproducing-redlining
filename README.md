@@ -1,10 +1,22 @@
 # reproducing-redlining
-An attempt to reproduce the figures in the FiveThirtyEight article "[The Lasting Legacy of Redlining](https://projects.fivethirtyeight.com/redlining/)" originally authored by Ryan Best and Elena Mejía. I use the data for the project from the [FiveThirtyEight GitHub repository](https://github.com/fivethirtyeight/data/tree/master/redlining) as well as the 2020 Census, accessed through the `tidycensus` package.
+An attempt to reproduce the figures in the FiveThirtyEight article "[The Lasting Legacy of Redlining](https://projects.fivethirtyeight.com/redlining/)" originally authored by Ryan Best and Elena Mejía. I use the data for the project from the [FiveThirtyEight GitHub repository](https://github.com/fivethirtyeight/data/tree/master/redlining) as well as the 2020 Census, accessed through the `tidycensus` package. 
+
+This project attempts to reproduce the following three figures:
+
+1. Bar plot of Cleveland's racial disparities in redlining (beginning of article)
+2. Pie chart map comparing "Hazardous" and "Best" racial disparities across all of the cities with avaible HOLC data in the U.S. (beginning of article)
+3. Map of Pittsburgh showing population density of each race across HOLC grades (first of the series of city maps)
 
 # Results
-If you are simply interested in viewing my attempt at reproducing the figures from the article, they are located in `results/output.html`. To view them, simply download the `results/output.html` file and open in a browser (such as Chrome). You can also clone the repository and open the `results/output.html` file from there. The `result/output.html` is produced by knitting the `scripts/driver.Rmd` script. Interim steps are produced by code in the **R** folder. 
 
-Please see below for more details on how the figures were reproduced and how to rerun the code and analysis.
+## Viewing
+If you are simply interested in viewing my attempt at reproducing the figures from the article, they are located in `results/output.html`. To view them, simply download the `results/output.html` file and open in a browser (such as Chrome). You can also clone the repository and open the `results/output.html` file from there. The `result/output.html` is produced by knitting the `scripts/driver.Rmd` script. Interim steps are produced by code in the **R** folder. Please see below for more details on how the figures were reproduced and how to rerun the code and analysis.
+
+## Reflection
+
+While most of the data required to reproduce the figures from this article was available, actually constructing the figures in R was a challenge. It was fairly obvious that the figures were not only bespoke, but also highly complex - and with no external code available, cobbling together such complicated figures was difficult. Some visualization parameters - such the exact method for constructing the bounds of Pittsburgh map plot - were unclear. R also did not support the type of visualization needed to map the pie-charts on the U.S. map, which made it impossible to replicate perfectly.
+
+If I had to rate the reproducibility of this article, I would give it a 5/10. The data was available, but creating the figures and developing reproducible code was no easy task. I even attempted to host my reproduction using CodeOcean, but the R packages that I needed to use to construct the dynamic geospatial visualizations in RMarkdown using `sf` and `pandoc` did not play nice with the site's output interface and were not able to be run correctly. If I were to do this project over again, I would have instead attempted to use a more advanced data visualization package like D3.js, which probably would have been more reproducible for such complex plots.
 
 # How to Run Code
 
