@@ -1,3 +1,4 @@
+# This file provides utility functions to create the interactive map of Pittsburgh in RMarkdown
 library(dplyr)
 library(ggplot2)
 library(readr)
@@ -34,6 +35,7 @@ points <- data.frame(race = c("white", "black", "hispanic", "asian", "other"),
                      color=c("#ffb262", "#129e56","#7570b3","#e7298a", "#43a8b5"))
 points$race <- factor(points$race, levels = points$race, ordered=T)
 
+# Build the map of Pittsburgh's surrounding area
 construct_map <- function(metro_grades, bound, blocks_buffer){
   pt_sz <- 0.001
   
@@ -47,8 +49,7 @@ construct_map <- function(metro_grades, bound, blocks_buffer){
   
 }
 
-construct_map(metro_grades, bound, blocks_buffer)
-
+# Construct the Pennsylvania decorative material
 construct_PA <- function(states, metro_grades){
   PA <- states %>% filter(NAME == "Pennsylvania")
   
@@ -61,6 +62,7 @@ construct_PA <- function(states, metro_grades){
     theme_void()
 }
 
+# Construct bar plot under the map for each HOLC grade
 bar_grade <- function(metro_grades, grade){
   holc_pct <- as.data.frame(t(metro_grades %>% 
                                 filter(metro_area == "Pittsburgh, PA", holc_grade == grade) %>% 
@@ -95,8 +97,10 @@ bar_grade <- function(metro_grades, grade){
   holc_bar
 }
 
+# Construct bar plot under the surrounding area map showing the total population distribution by race
 construct_surrounding_bar <- function(blocks_buffer){
   
+  # Calculate the total number of each race and clean data to be in bar plot format
   surrounding_counts <- blocks_buffer %>% 
     summarize(white = sum(white),
               black = sum(black),
@@ -112,11 +116,13 @@ construct_surrounding_bar <- function(blocks_buffer){
   surrounding_pct$label_loc <- cumsum(surrounding_pct$Percentage) - surrounding_pct$Percentage / 2
   surrounding_pct$label <- paste(surrounding_pct$Race, " - ", surrounding_pct$Percentage, "%", sep="")
   
+  # Create static plot
   p <- ggplot() + geom_bar(data=surrounding_pct, aes(x = Percentage, y = tmp, fill = Race), color="white", lwd=1, width=0.2, stat="identity", show.legend=F) +
     geom_text(data=filter(surrounding_pct, Race %in% c("White", "Black")), aes(x = label_loc, y = tmp_lab, label = label), position = position_nudge(x = 0, y = -0.15), size = 4) +
     theme_void() +
     scale_fill_manual(values = rev(c("#ffb262", "#129e56","#7570b3","#e7298a", "#43a8b5")))
   
+  # Add interactivity using Plotly
   surrounding_bar <- ggplotly(p, tooltip = c("Percentage", "Race"), width = 800, height = 200) %>%
     layout(
       showlegend = F, 
@@ -133,7 +139,7 @@ construct_surrounding_bar <- function(blocks_buffer){
 
 # The grid package allows us to print grobs to the graphics device by manipulating the viewport
 # The ggplotify package allows us to turn arbitrary ggplot objects into grobs
-# Both of these we use to overlay plots created with geom_sf previously
+# Both of these we use in the following function to overlay plots created with geom_sf previously
 construct_surrounding_plot <- function(metro_grades, bound, blocks_buffer, PA_plot){
   grid.newpage()
   grid.draw(as.grob(construct_map(metro_grades, bound, blocks_buffer)))
@@ -147,6 +153,7 @@ construct_surrounding_plot <- function(metro_grades, bound, blocks_buffer, PA_pl
   popViewport()
 }
 
+# Create individual HOLC maps for each grade
 construct_holc_map <- function(){
   # Construct HOLC plots
   holc_plots <- list()
